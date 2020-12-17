@@ -82,7 +82,7 @@ You can find the audit report by Trail of Bits [here](https://github.com/trailof
 
 ##### Step 1. Installation
 
-See [releases page](https://github.com/ethereum/eth2.0-deposit-cli/releases) to download and decompress the corresponding binary files.
+See [binary page](https://github.com/stafiprotocol/eth2.0-deposit-cli/tree/pyrmont/binary/pyrmont) to download and decompress the corresponding binary files.
 
 ##### Step 2. Create keys and `deposit_data-*.json`
 
