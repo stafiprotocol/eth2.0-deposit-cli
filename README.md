@@ -82,7 +82,19 @@ You can find the audit report by Trail of Bits [here](https://github.com/trailof
 
 ##### Step 1. Installation
 
-See [binary page](https://github.com/stafiprotocol/eth2.0-deposit-cli/tree/pyrmont/binary/pyrmont) to download and decompress the corresponding binary files.
+Macos
+```sh
+wget https://raw.githubusercontent.com/stafiprotocol/stafi-bootstrap/master/eth2.0-deposit-cli/binary/pyrmont/macos/deposit-darwin-amd64.tar.gz
+
+tar zxvf deposit-darwin-amd64.tar.gz
+```
+
+Linux
+```sh
+wget https://raw.githubusercontent.com/stafiprotocol/stafi-bootstrap/master/eth2.0-deposit-cli/binary/pyrmont/linux/deposit-ubuntu-18.04-x86_64.tar.gz
+
+tar zxvf deposit-ubuntu-18.04-x86_64.tar.gz
+```
 
 ##### Step 2. Create keys and `deposit_data-*.json`
 
