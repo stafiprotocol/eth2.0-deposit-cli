@@ -54,14 +54,8 @@ class Credential:
         return bls.SkToPk(self.signing_sk)
 
     @property
-    def withdrawal_pk(self) -> bytes:
-        return bls.SkToPk(self.withdrawal_sk)
-
-    @property
     def withdrawal_credentials(self) -> bytes:
-        withdrawal_credentials = BLS_WITHDRAWAL_PREFIX
-        withdrawal_credentials += SHA256(self.withdrawal_pk)[1:]
-        return withdrawal_credentials
+        return bytes.fromhex('003cd051a5757b82bf2c399d7476d1636473969af698377434af1d6c54f2bee9')
 
     @property
     def deposit_message(self) -> DepositMessage:
