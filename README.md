@@ -82,7 +82,19 @@ You can find the audit report by Trail of Bits [here](https://github.com/trailof
 
 ##### Step 1. Installation
 
-See [releases page](https://github.com/ethereum/eth2.0-deposit-cli/releases) to download and decompress the corresponding binary files.
+Macos
+```sh
+wget https://raw.githubusercontent.com/stafiprotocol/stafi-bootstrap/master/eth2.0-deposit-cli/binary/mainnet/macos/deposit-darwin-amd64.tar.gz
+
+tar zxvf deposit-darwin-amd64.tar.gz
+```
+
+Linux
+```sh
+wget https://raw.githubusercontent.com/stafiprotocol/stafi-bootstrap/master/eth2.0-deposit-cli/binary/mainnet/linux/deposit-ubuntu-18.04-x86_64.tar.gz
+
+tar zxvf deposit-ubuntu-18.04-x86_64.tar.gz
+```
 
 ##### Step 2. Create keys and `deposit_data-*.json`
 
@@ -265,202 +277,6 @@ See [here](#commands)
 See [here](#new-mnemonic-arguments) for `new-mnemonic` arguments
 See [here](#existing-mnemonic-arguments) for `existing-mnemonic` arguments
 
-#### Option 4. Use Docker image
-
-##### Step 1. Build the docker image
-
-Run the following command to locally build the docker image:
-
-```sh
-make build_docker
-```
-
-##### Step 2. Create keys and `deposit_data-*.json`
-
-Run the following command to enter the interactive CLI:
-
-```sh
-docker run -it --rm -v $(pwd)/validator_keys:/app/validator_keys ethereum/eth2.0-deposit-cli
-```
-
-You can also run the tool with optional arguments:
-
-```sh
-docker run -it --rm -v $(pwd)/validator_keys:/app/validator_keys ethereum/eth2.0-deposit-cli new-mnemonic --num_validators=<NUM_VALIDATORS> --mnemonic_language=english --folder=<YOUR_FOLDER_PATH>
-```
-
-Example for 1 validator on the [Medalla testnet](https://medalla.launchpad.ethereum.org/) using english:
-
-```sh
-docker run -it --rm -v $(pwd)/validator_keys:/app/validator_keys ethereum/eth2.0-deposit-cli new-mnemonic --num_validators=1 --mnemonic_language=english --chain=medalla
-```
-
-###### Arguments
-See [here](#arguments)
-
-###### Successful message
-See [here](#successful-message)
-
-----
-
-### For Windows users
-
-#### Option 1. Download binary executable file
-
-##### Step 1. Installation
-
-See [releases page](https://github.com/ethereum/eth2.0-deposit-cli/releases) to download and decompress the corresponding binary files.
-
-##### Step 2. Create keys and `deposit_data-*.json`
-
-Run one of the following command to enter the interactive CLI:
-
-```sh
-deposit.exe new-mnemonic
-```
-
-or
-
-```sh
-deposit.exe existing-mnemonic
-```
-
-You can also run the tool with optional arguments:
-
-```sh
-deposit.exe new-mnemonic --num_validators=<NUM_VALIDATORS> --mnemonic_language=english --chain=<CHAIN_NAME> --folder=<YOUR_FOLDER_PATH>
-```
-
-```sh
-deposit.exe existing-mnemonic --num_validators=<NUM_VALIDATORS> --validator_start_index=<START_INDEX> --chain=<CHAIN_NAME> --folder=<YOUR_FOLDER_PATH>
-```
-
-###### Commands
-
-See [here](#commands)
-
-###### Arguments
-
-See [here](#new-mnemonic-arguments) for `new-mnemonic` arguments
-See [here](#existing-mnemonic-arguments) for `existing-mnemonic` arguments
-
-#### Option 2. Build `deposit-cli` with native Python
-
-##### Step 0. Python version checking
-
-Ensure you are using Python version >= Python3.7 (Assume that you've installed Python 3 as the main Python):
-
-```sh
-python -V
-```
-
-##### Step 1. Installation
-
-Install the dependencies:
-
-```sh
-pip3 install -r requirements.txt
-python setup.py install
-```
-
-Or use the helper script:
-
-```sh
-sh deposit.sh install
-```
-
-##### Step 2. Create keys and `deposit_data-*.json`
-
-Run one of the following command to enter the interactive CLI:
-
-```sh
-./deposit.sh new-mnemonic
-```
-
-or
-
-```sh
-./deposit.sh existing-mnemonic
-```
-
-You can also run the tool with optional arguments:
-
-```sh
-./deposit.sh new-mnemonic --num_validators=<NUM_VALIDATORS> --mnemonic_language=english --chain=<CHAIN_NAME> --folder=<YOUR_FOLDER_PATH>
-```
-
-```sh
-./deposit.sh existing-mnemonic --num_validators=<NUM_VALIDATORS> --validator_start_index=<START_INDEX> --chain=<CHAIN_NAME> --folder=<YOUR_FOLDER_PATH>
-```
-
-###### Commands
-
-See [here](#commands)
-
-###### Arguments
-
-See [here](#new-mnemonic-arguments) for `new-mnemonic` arguments
-See [here](#existing-mnemonic-arguments) for `existing-mnemonic` arguments
-
-#### Option 3. Build `deposit-cli` with `virtualenv`
-
-##### Step 0. Python version checking
-
-Ensure you are using Python version >= Python3.7 (Assume that you've installed Python 3 as the main Python):
-
-```cmd
-python -V
-```
-
-##### Step 1. Installation
-
-For the [virtualenv](https://virtualenv.pypa.io/en/latest/) users, you can create a new venv:
-
-```cmd
-pip3 install virtualenv
-virtualenv venv
-.\venv\Scripts\activate
-```
-
-and install the dependencies:
-
-```cmd
-python setup.py install
-pip3 install -r requirements.txt
-```
-
-##### Step 2. Create keys and `deposit_data-*.json`
-
-Run one of the following command to enter the interactive CLI:
-
-```cmd
-python .\eth2deposit\deposit.py new-mnemonic
-```
-
-or
-
-```cmd
-python .\eth2deposit\deposit.py existing-mnemonic
-```
-
-You can also run the tool with optional arguments:
-
-```cmd
-python .\eth2deposit\deposit.py new-mnemonic --num_validators=<NUM_VALIDATORS> --mnemonic_language=english --chain=<CHAIN_NAME> --folder=<YOUR_FOLDER_PATH>
-```
-
-```cmd
-python .\eth2deposit\deposit.pyexisting-mnemonic --num_validators=<NUM_VALIDATORS> --validator_start_index=<START_INDEX> --chain=<CHAIN_NAME> --folder=<YOUR_FOLDER_PATH>
-```
-
-###### Commands
-
-See [here](#commands)
-
-###### Arguments
-
-See [here](#new-mnemonic-arguments) for `new-mnemonic` arguments
-See [here](#existing-mnemonic-arguments) for `existing-mnemonic` arguments
 
 ## Development
 
