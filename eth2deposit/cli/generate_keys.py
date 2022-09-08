@@ -11,10 +11,11 @@ from eth2deposit.credentials import (
 from eth2deposit.exceptions import ValidationError
 from eth2deposit.utils.validation import (
     verify_deposit_data_json,
+    verify_stake_data_json,
     validate_password_strength,
 )
 from eth2deposit.utils.constants import (
-    MAX_DEPOSIT_AMOUNT,
+    ETH2GWEI,
     DEFAULT_VALIDATOR_KEYS_FOLDER_NAME,
 )
 from eth2deposit.utils.ascii_art import RHINO_0
@@ -56,6 +57,14 @@ def validate_password(cts: click.Context, param: Any, password: str) -> str:
 
     return password
 
+def validate_num_eth(cts: click.Context, param: Any, num: int) -> int:
+    if num == 1 or num == 4:
+        return num
+
+    while True:
+        num = click.prompt("Please choose how many eth you wish to deposit (use 1 if you are trust node, otherwise use 4)", hide_input=False, show_default=True, type=int)
+        if num == 1 or num == 4:
+            return num
 
 def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[..., Any]:
     '''
@@ -69,6 +78,15 @@ def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[
             help='The number of validators keys you want to generate (you can always generate more later)',
             required=True,
             type=click.IntRange(0, 2**32 - 1),
+        ),
+        click.option(
+            '--num_eth',
+            default=4,
+            prompt='Please choose how many eth you wish to deposit (use 1 if you are trust node, otherwise use 4)',
+            help='The number of eth you want to generate (1 or 4 default 4)',
+            required=True,
+            callback=validate_num_eth,
+            type=click.IntRange(1, 4),
         ),
         click.option(
             '--folder',
@@ -100,30 +118,45 @@ def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[
 @click.command()
 @click.pass_context
 def generate_keys(ctx: click.Context, validator_start_index: int,
-                  num_validators: int, folder: str, chain: str, keystore_password: str, **kwargs: Any) -> None:
+                  num_validators: int, num_eth: int, folder: str, chain: str, keystore_password: str, **kwargs: Any) -> None:
     mnemonic = ctx.obj['mnemonic']
     mnemonic_password = ctx.obj['mnemonic_password']
-    amounts = [MAX_DEPOSIT_AMOUNT] * num_validators
+    if num_eth!=4 and num_eth!=1:
+        raise ValidationError("num_eth only support 1 or 4")
+    deposit_amounts = [num_eth*ETH2GWEI] * num_validators
+    stake_amounts = [(32-num_eth)*ETH2GWEI] * num_validators
     folder = os.path.join(folder, DEFAULT_VALIDATOR_KEYS_FOLDER_NAME)
     chain_setting = get_chain_setting(chain)
     if not os.path.exists(folder):
         os.mkdir(folder)
     click.clear()
     click.echo(RHINO_0)
-    click.echo('Creating your keys.')
-    credentials = CredentialList.from_mnemonic(
+    click.echo('Creating your keys(v2).')
+    deposit_credentials = CredentialList.from_mnemonic(
         mnemonic=mnemonic,
         mnemonic_password=mnemonic_password,
         num_keys=num_validators,
-        amounts=amounts,
+        amounts=deposit_amounts,
         chain_setting=chain_setting,
         start_index=validator_start_index,
     )
-    keystore_filefolders = credentials.export_keystores(password=keystore_password, folder=folder)
-    deposits_file = credentials.export_deposit_data_json(folder=folder)
-    if not credentials.verify_keystores(keystore_filefolders=keystore_filefolders, password=keystore_password):
+    stake_credentials = CredentialList.from_mnemonic(
+        mnemonic=mnemonic,
+        mnemonic_password=mnemonic_password,
+        num_keys=num_validators,
+        amounts=stake_amounts,
+        chain_setting=chain_setting,
+        start_index=validator_start_index,
+    )
+    keystore_filefolders = deposit_credentials.export_keystores(password=keystore_password, folder=folder)
+    deposits_file = deposit_credentials.export_deposit_data_json(folder=folder)
+    stakes_file = stake_credentials.export_stake_data_json(folder=folder)
+
+    if not deposit_credentials.verify_keystores(keystore_filefolders=keystore_filefolders, password=keystore_password):
         raise ValidationError("Failed to verify the keystores.")
     if not verify_deposit_data_json(deposits_file):
         raise ValidationError("Failed to verify the deposit data JSON files.")
+    if not verify_stake_data_json(stakes_file):
+        raise ValidationError("Failed to verify the stake data JSON files.")
     click.echo('\nSuccess!\nYour keys can be found at: %s' % folder)
     click.pause('\n\nPress any key.')

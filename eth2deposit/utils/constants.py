@@ -11,7 +11,6 @@ ETH2GWEI = 10 ** 9
 MIN_DEPOSIT_AMOUNT = 2 ** 0 * ETH2GWEI
 MAX_DEPOSIT_AMOUNT = 2 ** 5 * ETH2GWEI
 
-
 # File/folder constants
 WORD_LISTS_PATH = os.path.join('eth2deposit', 'key_handling', 'key_derivation', 'word_lists')
 DEFAULT_VALIDATOR_KEYS_FOLDER_NAME = 'validator_keys'

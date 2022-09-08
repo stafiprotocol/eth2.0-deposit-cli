@@ -148,6 +148,15 @@ class CredentialList:
         with open(filefolder, 'w') as f:
             json.dump(deposit_data, f, default=lambda x: x.hex())
         return filefolder
+    
+    def export_stake_data_json(self, folder: str) -> str:
+        with click.progressbar(self.credentials, label='Creating your stakedata:\t',
+                               show_percent=False, show_pos=True) as credentials:
+            deposit_data = [cred.deposit_datum_dict for cred in credentials]
+        filefolder = os.path.join(folder, 'stake_data-%i.json' % time.time())
+        with open(filefolder, 'w') as f:
+            json.dump(deposit_data, f, default=lambda x: x.hex())
+        return filefolder
 
     def verify_keystores(self, keystore_filefolders: List[str], password: str) -> bool:
         with click.progressbar(zip(self.credentials, keystore_filefolders), label='Verifying your keystores:\t',

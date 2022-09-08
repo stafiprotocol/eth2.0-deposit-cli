@@ -32,6 +32,17 @@ def verify_deposit_data_json(filefolder: str) -> bool:
             return all([validate_deposit(deposit) for deposit in deposits])
     return False
 
+def verify_stake_data_json(filefolder: str) -> bool:
+    """
+    Validate every stake found in the stake-data JSON file folder.
+    """
+    with open(filefolder, 'r') as f:
+        deposit_json = json.load(f)
+        with click.progressbar(deposit_json, label='Verifying your stakes:\t',
+                               show_percent=False, show_pos=True) as deposits:
+            return all([validate_deposit(deposit) for deposit in deposits])
+    return False
+
 
 def validate_deposit(deposit_data_dict: Dict[str, Any]) -> bool:
     '''
@@ -46,7 +57,7 @@ def validate_deposit(deposit_data_dict: Dict[str, Any]) -> bool:
     fork_version = bytes.fromhex(deposit_data_dict['fork_version'])
 
     # Verify deposit amount
-    if not MIN_DEPOSIT_AMOUNT < amount <= MAX_DEPOSIT_AMOUNT:
+    if not MIN_DEPOSIT_AMOUNT <= amount <= MAX_DEPOSIT_AMOUNT:
         return False
 
     # Verify deposit signature && pubkey

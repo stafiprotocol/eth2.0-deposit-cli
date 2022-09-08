@@ -4,57 +4,35 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Introduction](#introduction)
-- [Tutorial for users](#tutorial-for-users)
-  - [Build requirements](#build-requirements)
-  - [For Linux or MacOS users](#for-linux-or-macos-users)
-    - [Option 1. Download binary executable file](#option-1-download-binary-executable-file)
-      - [Step 1. Installation](#step-1-installation)
-      - [Step 2. Create keys and `deposit_data-*.json`](#step-2-create-keys-and-deposit_data-json)
-        - [Commands](#commands)
-        - [`new-mnemonic` Arguments](#new-mnemonic-arguments)
-        - [`existing-mnemonic` Arguments](#existing-mnemonic-arguments)
-        - [Successful message](#successful-message)
-    - [Option 2. Build `deposit-cli` with native Python](#option-2-build-deposit-cli-with-native-python)
-      - [Step 0. Python version checking](#step-0-python-version-checking)
-      - [Step 1. Installation](#step-1-installation-1)
-      - [Step 2. Create keys and `deposit_data-*.json`](#step-2-create-keys-and-deposit_data-json-1)
-        - [Commands](#commands-1)
-        - [Arguments](#arguments)
-        - [Successful message](#successful-message-1)
-    - [Option 3. Build `deposit-cli` with `virtualenv`](#option-3-build-deposit-cli-with-virtualenv)
-      - [Step 0. Python version checking](#step-0-python-version-checking-1)
-      - [Step 1. Installation](#step-1-installation-2)
-      - [Step 2. Create keys and `deposit_data-*.json`](#step-2-create-keys-and-deposit_data-json-2)
-        - [Commands](#commands-2)
-        - [Arguments](#arguments-1)
-    - [Option 4. Use Docker image](#option-4-use-docker-image)
-      - [Step 1. Build the docker image](#step-1-build-the-docker-image)
-      - [Step 2. Create keys and `deposit_data-*.json`](#step-2-create-keys-and-deposit_data-json-3)
-        - [Arguments](#arguments-2)
-        - [Successful message](#successful-message-2)
-  - [For Windows users](#for-windows-users)
-    - [Option 1. Download binary executable file](#option-1-download-binary-executable-file-1)
-      - [Step 1. Installation](#step-1-installation-3)
-      - [Step 2. Create keys and `deposit_data-*.json`](#step-2-create-keys-and-deposit_data-json-4)
-        - [Commands](#commands-3)
-        - [Arguments](#arguments-3)
-    - [Option 2. Build `deposit-cli` with native Python](#option-2-build-deposit-cli-with-native-python-1)
-      - [Step 0. Python version checking](#step-0-python-version-checking-2)
-      - [Step 1. Installation](#step-1-installation-4)
-      - [Step 2. Create keys and `deposit_data-*.json`](#step-2-create-keys-and-deposit_data-json-5)
-        - [Commands](#commands-4)
-        - [Arguments](#arguments-4)
-    - [Option 3. Build `deposit-cli` with `virtualenv`](#option-3-build-deposit-cli-with-virtualenv-1)
-      - [Step 0. Python version checking](#step-0-python-version-checking-3)
-      - [Step 1. Installation](#step-1-installation-5)
-      - [Step 2. Create keys and `deposit_data-*.json`](#step-2-create-keys-and-deposit_data-json-6)
-        - [Commands](#commands-5)
-        - [Arguments](#arguments-5)
-- [Development](#development)
-  - [Install basic requirements](#install-basic-requirements)
-  - [Install testing requirements](#install-testing-requirements)
-  - [Run tests](#run-tests)
+- [eth2.0-deposit-cli](#eth20-deposit-cli)
+  - [Introduction](#introduction)
+  - [Tutorial for users](#tutorial-for-users)
+    - [Build requirements](#build-requirements)
+    - [For Linux or MacOS users](#for-linux-or-macos-users)
+      - [Option 1. Download binary executable file](#option-1-download-binary-executable-file)
+        - [Step 1. Installation](#step-1-installation)
+        - [Step 2. Create keys and `deposit_data-*.json`](#step-2-create-keys-and-deposit_data-json)
+          - [Commands](#commands)
+          - [`new-mnemonic` Arguments](#new-mnemonic-arguments)
+          - [`existing-mnemonic` Arguments](#existing-mnemonic-arguments)
+          - [Successful message](#successful-message)
+      - [Option 2. Build `deposit-cli` with native Python](#option-2-build-deposit-cli-with-native-python)
+        - [Step 0. Python version checking](#step-0-python-version-checking)
+        - [Step 1. Installation](#step-1-installation-1)
+        - [Step 2. Create keys and `deposit_data-*.json`](#step-2-create-keys-and-deposit_data-json-1)
+          - [Commands](#commands-1)
+          - [Arguments](#arguments)
+          - [Successful message](#successful-message-1)
+      - [Option 3. Build `deposit-cli` with `virtualenv`](#option-3-build-deposit-cli-with-virtualenv)
+        - [Step 0. Python version checking](#step-0-python-version-checking-1)
+        - [Step 1. Installation](#step-1-installation-2)
+        - [Step 2. Create keys and `deposit_data-*.json`](#step-2-create-keys-and-deposit_data-json-2)
+          - [Commands](#commands-2)
+          - [Arguments](#arguments-1)
+  - [Development](#development)
+    - [Install basic requirements](#install-basic-requirements)
+    - [Install testing requirements](#install-testing-requirements)
+    - [Run tests](#run-tests)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -114,32 +92,32 @@ or run the following command to enter the interactive CLI and generate keys from
 
 The CLI offers different commands depending on what you want to do with the tool.
 
-| Command | Description |
-| ------- | ----------- |
-| `new-mnemonic` | (Recommended) This command is used to generate keystores with a new mnemonic. |
+| Command             | Description                                                                                                                                                                                                                                                                                                                                                     |
+| ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `new-mnemonic`      | (Recommended) This command is used to generate keystores with a new mnemonic.                                                                                                                                                                                                                                                                                   |
 | `existing-mnemonic` | This command is used to re-generate or derive new keys from your existing mnemonic. Use this command, if (i) you have already generated keys with this CLI before, (ii) you want to reuse your mnemonic that you know is secure that you generated elsewhere (reusing your eth1 mnemonic .etc), or (iii) you lost your keystores and need to recover your keys. |
 
 ###### `new-mnemonic` Arguments
 
 You can use `new-mnemonic --help` to see all arguments. Note that if there are missing arguments that the CLI needs, it will ask you for them.
 
-| Argument | Type | Description |
-| -------- | -------- | -------- |
-| `--num_validators`  | Non-negative integer | The number of signing keys you want to generate. Note that the child key(s) are generated via the same master key. |
-| `--mnemonic_language` | String. Options: `czech`, `chinese_traditional`, `chinese_simplified`, `english`, `spanish`, `italian`, `korean`. Default to `english` | The mnemonic language |
-| `--folder` | String. Pointing to `./validator_keys` by default | The folder path for the keystore(s) and deposit(s) |
-| `--chain` | String. `mainnet` by default | The chain setting for the signing domain. |
+| Argument              | Type                                                                                                                                   | Description                                                                                                        |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `--num_validators`    | Non-negative integer                                                                                                                   | The number of signing keys you want to generate. Note that the child key(s) are generated via the same master key. |
+| `--mnemonic_language` | String. Options: `czech`, `chinese_traditional`, `chinese_simplified`, `english`, `spanish`, `italian`, `korean`. Default to `english` | The mnemonic language                                                                                              |
+| `--folder`            | String. Pointing to `./validator_keys` by default                                                                                      | The folder path for the keystore(s) and deposit(s)                                                                 |
+| `--chain`             | String. `mainnet` by default                                                                                                           | The chain setting for the signing domain.                                                                          |
 
 ###### `existing-mnemonic` Arguments
 
 You can use `existing-mnemonic --help` to see all arguments. Note that if there are missing arguments that the CLI needs, it will ask you for them.
 
-| Argument | Type | Description |
-| -------- | -------- | -------- |
-| `--validator_start_index` | Non-negative integer | The index of the first validator's keys you wish to generate. If this is your first time generating keys with this mnemonic, use 0. If you have generated keys using this mnemonic before, use the next index from which you want to start generating keys from (eg, if you've generated 4 keys before (keys #0, #1, #2, #3), then enter 4 here.|
-| `--num_validators`  | Non-negative integer | The number of signing keys you want to generate. Note that the child key(s) are generated via the same master key. |
-| `--folder` | String. Pointing to `./validator_keys` by default | The folder path for the keystore(s) and deposit(s) |
-| `--chain` | String. `mainnet` by default | The chain setting for the signing domain. |
+| Argument                  | Type                                              | Description                                                                                                                                                                                                                                                                                                                                      |
+| ------------------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `--validator_start_index` | Non-negative integer                              | The index of the first validator's keys you wish to generate. If this is your first time generating keys with this mnemonic, use 0. If you have generated keys using this mnemonic before, use the next index from which you want to start generating keys from (eg, if you've generated 4 keys before (keys #0, #1, #2, #3), then enter 4 here. |
+| `--num_validators`        | Non-negative integer                              | The number of signing keys you want to generate. Note that the child key(s) are generated via the same master key.                                                                                                                                                                                                                               |
+| `--folder`                | String. Pointing to `./validator_keys` by default | The folder path for the keystore(s) and deposit(s)                                                                                                                                                                                                                                                                                               |
+| `--chain`                 | String. `mainnet` by default                      | The chain setting for the signing domain.                                                                                                                                                                                                                                                                                                        |
 
 ###### Successful message
 
