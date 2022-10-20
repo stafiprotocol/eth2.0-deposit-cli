@@ -1,7 +1,7 @@
 from typing import Dict, NamedTuple
 
 
-DEPOSIT_CLI_VERSION = '2.0.1'
+DEPOSIT_CLI_VERSION = '2.1.0'
 
 
 class BaseChainSetting(NamedTuple):
@@ -10,14 +10,16 @@ class BaseChainSetting(NamedTuple):
 
 
 MAINNET = 'mainnet'
-
+GOERLI = 'goerli'
 
 # Eth2 Mainnet setting
 MainnetSetting = BaseChainSetting(ETH2_NETWORK_NAME=MAINNET, GENESIS_FORK_VERSION=bytes.fromhex('00000000'))
-
+# Goerli setting
+GoerliSetting = BaseChainSetting(ETH2_NETWORK_NAME=GOERLI, GENESIS_FORK_VERSION=bytes.fromhex('00001020'))
 
 ALL_CHAINS: Dict[str, BaseChainSetting] = {
     MAINNET: MainnetSetting,
+    GOERLI: GoerliSetting,
 }
 
 
