@@ -1,7 +1,7 @@
 from typing import Dict, NamedTuple
 
 
-DEPOSIT_CLI_VERSION = '2.0.1'
+DEPOSIT_CLI_VERSION = '2.0.2'
 
 
 class BaseChainSetting(NamedTuple):
