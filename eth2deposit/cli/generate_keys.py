@@ -58,12 +58,12 @@ def validate_password(cts: click.Context, param: Any, password: str) -> str:
     return password
 
 def validate_num_eth(cts: click.Context, param: Any, num: int) -> int:
-    if num == 1 or num == 4:
+    if num == 1 or num == 12:
         return num
 
     while True:
-        num = click.prompt("Please choose how many eth you wish to deposit (use 1 if you are trust node, otherwise use 4)", hide_input=False, show_default=True, type=int)
-        if num == 1 or num == 4:
+        num = click.prompt("Please choose how many eth you wish to deposit (use 1 if you are trust node, otherwise use 12)", hide_input=False, show_default=True, type=int)
+        if num == 1 or num == 12:
             return num
 
 def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[..., Any]:
@@ -81,12 +81,12 @@ def generate_keys_arguments_decorator(function: Callable[..., Any]) -> Callable[
         ),
         click.option(
             '--num_eth',
-            default=4,
-            prompt='Please choose how many eth you wish to deposit (use 1 if you are trust node, otherwise use 4)',
-            help='The number of eth you want to generate (1 or 4 default 4)',
+            default=12,
+            prompt='Please choose how many eth you wish to deposit (use 1 if you are trust node, otherwise use 12)',
+            help='The number of eth you want to generate (1 or 12 default 412)',
             required=True,
             callback=validate_num_eth,
-            type=click.IntRange(1, 4),
+            type=click.IntRange(1, 12),
         ),
         click.option(
             '--folder',
@@ -121,8 +121,8 @@ def generate_keys(ctx: click.Context, validator_start_index: int,
                   num_validators: int, num_eth: int, folder: str, chain: str, keystore_password: str, **kwargs: Any) -> None:
     mnemonic = ctx.obj['mnemonic']
     mnemonic_password = ctx.obj['mnemonic_password']
-    if num_eth!=4 and num_eth!=1:
-        raise ValidationError("num_eth only support 1 or 4")
+    if num_eth!=12 and num_eth!=1:
+        raise ValidationError("num_eth only support 1 or 12")
     deposit_amounts = [num_eth*ETH2GWEI] * num_validators
     stake_amounts = [(32-num_eth)*ETH2GWEI] * num_validators
     folder = os.path.join(folder, DEFAULT_VALIDATOR_KEYS_FOLDER_NAME)
