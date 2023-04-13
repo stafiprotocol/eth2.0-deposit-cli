@@ -55,7 +55,7 @@ class Credential:
 
     @property
     def withdrawal_credentials(self) -> bytes:
-        return bytes.fromhex('003cd051a5757b82bf2c399d7476d1636473969af698377434af1d6c54f2bee9')
+        return bytes.fromhex('01000000000000000000000027d64dd9172e4b59a444817d30f7af8228f174cc')
 
     @property
     def deposit_message(self) -> DepositMessage:
