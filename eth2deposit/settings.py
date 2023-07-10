@@ -10,14 +10,16 @@ class BaseChainSetting(NamedTuple):
 
 
 MAINNET = 'mainnet'
+GOERLI = 'goerli'
 
 
 # Eth2 Mainnet setting
 MainnetSetting = BaseChainSetting(ETH2_NETWORK_NAME=MAINNET, GENESIS_FORK_VERSION=bytes.fromhex('00000000'))
-
+GoerliSetting = BaseChainSetting(ETH2_NETWORK_NAME=GOERLI, GENESIS_FORK_VERSION=bytes.fromhex('00001020'))
 
 ALL_CHAINS: Dict[str, BaseChainSetting] = {
     MAINNET: MainnetSetting,
+    GOERLI: GoerliSetting,
 }
 
 
