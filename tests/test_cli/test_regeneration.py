@@ -3,10 +3,10 @@ import os
 from pathlib import Path
 
 from click.testing import CliRunner
-from eth2deposit.cli import new_mnemonic
-from eth2deposit.deposit import cli
-from eth2deposit.utils.constants import DEFAULT_VALIDATOR_KEYS_FOLDER_NAME
-from .helpers import clean_key_folder, get_uuid
+from staking_deposit.cli import new_mnemonic
+from staking_deposit.deposit import cli
+from staking_deposit.utils.constants import DEFAULT_VALIDATOR_KEYS_FOLDER_NAME
+from .helpers import clean_key_folder, get_permissions, get_uuid
 
 
 def test_regeneration(monkeypatch) -> None:
@@ -33,7 +33,7 @@ def test_regeneration(monkeypatch) -> None:
     runner = CliRunner()
     # Create index 0 and 1
     my_password = "MyPassword"
-    inputs = ['english', '2', 'mainnet', my_password, my_password, mock_mnemonic]
+    inputs = ['english', 'english', '2', 'mainnet', my_password, my_password, mock_mnemonic]
     data = '\n'.join(inputs)
     result = runner.invoke(cli, ['new-mnemonic', '--folder', folder_path_1], input=data)
     assert result.exit_code == 0
@@ -47,12 +47,18 @@ def test_regeneration(monkeypatch) -> None:
                 for key_file in part_1_key_files]
     assert len(set(all_uuid)) == 2
 
+    # Verify file permissions
+    if os.name == 'posix':
+        for file_name in part_1_key_files:
+            assert get_permissions(validator_keys_folder_path_1, file_name) == '0o440'
+
     # Part 2: existing-mnemonic
     runner = CliRunner()
     # Create index 1 and 2
     inputs = [
+        'english',
         mock_mnemonic,
-        '1', '1', '2', 'mainnet', 'MyPassword', 'MyPassword', 'yes']
+        '1', '1', '2', 'mainnet', 'MyPassword', 'MyPassword']
     data = '\n'.join(inputs)
     arguments = ['existing-mnemonic', '--folder', folder_path_2]
     result = runner.invoke(cli, arguments, input=data)
@@ -77,6 +83,11 @@ def test_regeneration(monkeypatch) -> None:
         keystore_2_0 = json.load(f)
     assert keystore_1_1['pubkey'] == keystore_2_0['pubkey']
     assert keystore_1_1['path'] == keystore_2_0['path']
+
+    # Verify file permissions
+    if os.name == 'posix':
+        for file_name in part_2_key_files:
+            assert get_permissions(validator_keys_folder_path_2, file_name) == '0o440'
 
     # Clean up
     clean_key_folder(folder_path_1)

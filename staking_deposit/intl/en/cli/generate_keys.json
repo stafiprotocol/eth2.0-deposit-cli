@@ -1,0 +1,39 @@
+{
+    "generate_keys_arguments_decorator": {
+        "num_validators": {
+            "help": "The number of new validator keys you want to generate (you can always generate more later)",
+            "prompt": "Please choose how many new validators you wish to run"
+        },
+        "folder": {
+            "help": "The folder path for the keystore(s) and deposit(s). Pointing to `./validator_keys` by default."
+        },
+        "chain": {
+            "help": "The name of Ethereum PoS chain you are targeting. Use \"mainnet\" if you are depositing ETH",
+            "prompt": "Please choose the (mainnet or testnet) network/chain name"
+        },
+        "keystore_password": {
+            "help": "The password that will secure your keystores. You will need to re-enter this to decrypt them when you setup your Ethereum validators. (It is recommended not to use this argument, and wait for the CLI to ask you for your mnemonic as otherwise it will appear in your shell history.)",
+            "prompt": "Create a password that secures your validator keystore(s). You will need to re-enter this to decrypt them when you setup your Ethereum validators.",
+            "confirm": "Repeat your keystore password for confirmation",
+            "mismatch": "Error: the two entered values do not match. Please type again."
+        },
+        "arg_execution_address": {
+            "help": "The withdrawal recipient address",
+            "prompt": "Please enter withdrawal recipient address",
+            "confirm": "Repeat your withdrawal recipient address for confirmation",
+            "mismatch": "Error: the two entered values do not match. Please type again."
+        },
+        "arg_node_deposit_amount": {
+            "help": "The amount that a validator must deposit (0 for trust node, solo nodes need such as 4, 8 or 12 etc, you can find it in the doc)",
+            "prompt": "Please enter the amount that a validator must deposit (type 0 for trust node, solo nodes need such as 4, 8 or 12 etc, you can find it in the doc)"
+        }
+    },
+    "generate_keys": {
+        "msg_key_creation": "Creating your keys.",
+        "msg_creation_success": "\nSuccess!\nYour keys can be found at: ",
+        "msg_pause": "\n\nPress any key.",
+        "err_verify_keystores": "Failed to verify the keystores.",
+        "err_verify_stake": "Failed to verify the stake data JSON files.",
+        "err_verify_deposit": "Failed to verify the deposit data JSON files."
+    }
+}
