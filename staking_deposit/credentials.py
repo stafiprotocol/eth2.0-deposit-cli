@@ -249,6 +249,17 @@ class CredentialList:
             os.chmod(filefolder, int('440', 8))  # Read for owner & group
         return filefolder
 
+    def export_stake_data_json(self, folder: str) -> str:
+        with click.progressbar(self.credentials, label=load_text(['msg_stake_data_creation']),
+                               show_percent=False, show_pos=True) as credentials:
+            deposit_data = [cred.deposit_datum_dict for cred in credentials]
+        filefolder = os.path.join(folder, 'stake_data-%i.json' % time.time())
+        with open(filefolder, 'w') as f:
+            json.dump(deposit_data, f, default=lambda x: x.hex())
+        if os.name == 'posix':
+            os.chmod(filefolder, int('440', 8))  # Read for owner & group
+        return filefolder
+
     def verify_keystores(self, keystore_filefolders: List[str], password: str) -> bool:
         with click.progressbar(zip(self.credentials, keystore_filefolders),
                                label=load_text(['msg_keystore_verification']),

@@ -85,7 +85,7 @@ def validate_deposit(deposit_data_dict: Dict[str, Any], credential: Credential) 
         return False
 
     # Verify deposit amount
-    if not MIN_DEPOSIT_AMOUNT < amount <= MAX_DEPOSIT_AMOUNT:
+    if not MIN_DEPOSIT_AMOUNT <= amount <= MAX_DEPOSIT_AMOUNT:
         return False
 
     # Verify deposit signature && pubkey
@@ -103,6 +103,18 @@ def validate_deposit(deposit_data_dict: Dict[str, Any], credential: Credential) 
         signature=signature,
     )
     return signed_deposit.hash_tree_root == deposit_message_root
+
+
+def verify_stake_data_json(filefolder: str, credentials: Sequence[Credential]) -> bool:
+    """
+    Validate every stake found in the stake-data JSON file folder.
+    """
+    with open(filefolder, 'r') as f:
+        stake_json = json.load(f)
+        with click.progressbar(stake_json, label=load_text(['msg_stake_verification']),
+                               show_percent=False, show_pos=True) as stakes:
+            return all([validate_deposit(stake, credential) for stake, credential in zip(stakes, credentials)])
+    return False
 
 
 def validate_password_strength(password: str) -> str:
@@ -124,6 +136,16 @@ def validate_int_range(num: Any, low: int, high: int) -> int:
         raise ValidationError(load_text(['err_not_positive_integer']))
 
 
+def validate_node_deposit_amount(amount: Any) -> int:
+    if str(amount).strip() == '0':
+        # trust node mode
+        return 1
+    amount = int(amount)
+    if 1 <= amount <= 31:
+        return amount
+    raise ValidationError(load_text(['err_not_valid_amount']))
+
+
 def validate_eth1_withdrawal_address(cts: click.Context, param: Any, address: str) -> HexAddress:
     if address is None:
         return None
@@ -133,7 +155,7 @@ def validate_eth1_withdrawal_address(cts: click.Context, param: Any, address: st
         raise ValidationError(load_text(['err_invalid_ECDSA_hex_addr_checksum']))
 
     normalized_address = to_normalized_address(address)
-    click.echo('\n%s\n' % load_text(['msg_ECDSA_hex_addr_withdrawal']))
+    click.echo('\nyou are setting %s as your withdrawal address\n' % (address))
     return normalized_address
 
 #
